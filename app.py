@@ -54,7 +54,9 @@ if "messages" not in st.session_state:
 if "graphdb" not in st.session_state and "api_keys" in st.session_state:
      if "NEO4J_URI" in st.session_state["api_keys"]:
         with st.spinner(text="Creating Knowledge Graph"):
-            st.session_state["graphdb"] = create_graphdb()
+            st.session_state["graphdb"] = create_graphdb(st.session_state.api_keys["NEO4J_URI"], 
+                                                         st.session_state.api_keys["NEO4J_USERNAME"],
+                                                         st.session_state.api_keys["NEO4J_PASSWORD"])
             # # Display assistant message in chat message container
             # st.chat_message("assistant").write("Knowledge Graph Created.")
             # Add assistant message to chat history
