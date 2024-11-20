@@ -2,6 +2,7 @@ from dotenv import load_dotenv
 from langchain.chains import GraphCypherQAChain
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import FewShotPromptTemplate, PromptTemplate
+import streamlit as st
 
 # Loading OpenAI API Keys
 load_dotenv()
@@ -59,7 +60,7 @@ def get_response(text, graph):
     )
     
 
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.1)
+    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0.1, api_key=st.session_state.api_keys["OPENAI_API_KEY"])
     
     chain = GraphCypherQAChain.from_llm(
         graph=graph, llm=llm, cypher_prompt=prompt, verbose=True, allow_dangerous_requests=True, return_intermediate_steps=True

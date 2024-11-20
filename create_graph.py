@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from langchain_community.graphs import Neo4jGraph
+import streamlit as st
 
 # Loading Neo4j credentials
 load_dotenv()
@@ -11,7 +12,7 @@ NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD")
 
 def create_graphdb():
     # Initializin the graph db
-    graph = Neo4jGraph(url=NEO4J_URI, username=NEO4J_USERNAME, password=NEO4J_PASSWORD)
+    graph = Neo4jGraph(url=st.session_state.api_keys["NEO4J_URI"], username=st.session_state.api_keys["NEO4J_USERNAME"], password=st.session_state.api_keys["NEO4J_PASSWORD"])
 
     # Query to create the graph db
     movies_query = """

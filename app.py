@@ -1,13 +1,29 @@
+import os
+from dotenv import load_dotenv
 import streamlit as st
 from PIL import Image
 
 from get_response import get_response
 from create_graph import create_graphdb
+from get_api import get_api
 
 # Streamlit app
 
 # Page title and layout settings
 st.set_page_config(page_title="GraphDB QnA")
+
+# Loading API Keys
+load_dotenv()
+# Check if the API key is set
+if "api_keys" not in st.session_state:
+    st.session_state.api_keys = {}
+    if "OPENAI_API_KEY" not in os.environ or "NEO4J_URI" not in os.environ:
+        get_api()
+    else:
+        st.session_state.api_keys["OPENAI_API_KEY"] = os.environ["OPENAI_API_KEY"]
+        st.session_state.api_keys["NEO4J_URI"] = os.environ["NEO4J_URI"]
+        st.session_state.api_keys["NEO4J_USERNAME"] = os.environ["NEO4J_USERNAME"]
+        st.session_state.api_keys["NEO4J_PASSWORD"] = os.environ["NEO4J_PASSWORD"]
 
 # Title
 st.title("Graph Database QnA")
@@ -35,13 +51,14 @@ if "messages" not in st.session_state:
     st.session_state["messages"] = []
 
 # Creating the GraphDB
-if "graphdb" not in st.session_state:
-     with st.spinner(text="Creating Knowledge Graph"):
-        st.session_state["graphdb"] = create_graphdb()
-        # # Display assistant message in chat message container
-        # st.chat_message("assistant").write("Knowledge Graph Created.")
-        # Add user message to chat history
-        st.session_state.messages.append({"role": "assistant", "content": "Knowledge Graph Created."})
+if "graphdb" not in st.session_state and "api_keys" in st.session_state:
+     if "NEO4J_URI" in st.session_state["api_keys"]:
+        with st.spinner(text="Creating Knowledge Graph"):
+            st.session_state["graphdb"] = create_graphdb()
+            # # Display assistant message in chat message container
+            # st.chat_message("assistant").write("Knowledge Graph Created.")
+            # Add assistant message to chat history
+            st.session_state.messages.append({"role": "assistant", "content": "Knowledge Graph Created."})
 
 
 # Display chat messages from history on app rerun
