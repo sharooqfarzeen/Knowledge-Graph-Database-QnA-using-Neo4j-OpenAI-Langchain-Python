@@ -3,9 +3,6 @@ from langchain_community.graphs import Neo4jGraph
 import streamlit as st
 
 def create_graphdb(url, username, password):
-    os.environ["NEO4J_URI"] = url
-    os.environ["NEO4J_USERNAME"] = username
-    os.environ["NEO4J_PASSWORD"] = password
 
     # Query to create the graph db
     movies_query = """
@@ -27,7 +24,7 @@ def create_graphdb(url, username, password):
         MERGE (m)-[:IN_GENRE]->(g))
     """
     # Initializin the graph db
-    graph = Neo4jGraph()
+    graph = Neo4jGraph(url=url, username=username, password=password)
 
     # Creating the graph db
     graph.query(movies_query)
