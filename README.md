@@ -1,4 +1,4 @@
-## [Try the app on streamlit](https://knowledge-graph-database-qna.streamlit.app/)
+## [Try the app on Streamlit](https://knowledge-graph-database-qna.streamlit.app/)
 
 **OR**
 
