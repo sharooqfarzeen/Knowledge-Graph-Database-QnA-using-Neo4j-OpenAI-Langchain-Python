@@ -54,8 +54,8 @@ def get_response(text, graph):
     prompt = FewShotPromptTemplate(
         examples=examples,
         example_prompt=example_prompt,
-        prefix="You are a Neo4j expert. Given an input question, create a syntactically correct Cypher query to run.\n\nHere is the schema information\n{schema}.\n\nBelow are a number of examples of questions and their corresponding Cypher queries.",
-        suffix="User input: {question}\nCypher query: ",
+        prefix="You are a Neo4j expert. Given an input question, create a syntactically correct Cypher query to run. Return only the Cypher query and nothing else.\n\nHere is the schema information\n{schema}.\n\nBelow are a number of examples of questions and their corresponding Cypher queries.",
+        suffix="User input: {question}",
         input_variables=["question", "schema"],
     )
     
