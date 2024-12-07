@@ -13,7 +13,7 @@ from get_api import get_api
 st.set_page_config(page_title="GraphDB QnA")
 
 # Loading API Keys
-load_dotenv()
+load_dotenv(override=True)
 # Check if the API key is set
 if "api_keys" not in st.session_state:
     st.session_state.api_keys = {}
